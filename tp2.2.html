@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TP2</title>
+        <script src="https://unpkg.com/vue@next"></script>
+        <style>
+            ul {
+                list-style: none;
+            }
+            li {
+                margin: 10px;
+            }
+            span {
+                margin: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <big-box></big-box>
+        </div>
+        <script>
+            const deleteItem = {
+                props: ["item"],
+                template: `
+                    <li>
+                        <span v-show="item.show">
+                            {{ item.text }}
+                        </span>
+                        <button @click="$emit('deleteItem', item.id)">
+                            Delete
+                        </button>
+                    <li>`
+            }
+
+            const bigBox = {
+                data() {
+                    return {
+                        items: [
+                            {
+                                id: 1,
+                                text: 'Random text 1',
+                                show: true
+                            },
+                            {
+                                id: 2,
+                                text: 'Random text 2',
+                                show: true
+                            },
+                            {
+                                id: 3,
+                                text: 'Random text 3',
+                                show: true
+                            },
+                            {
+                                id: 4,
+                                text: 'Random text 4',
+                                show: true
+                            },
+                            {
+                                id: 5,
+                                text: 'Random text 5',
+                                show: true
+                            },
+                            {
+                                id: 6,
+                                text: 'Random text 6',
+                                show: true
+                            },
+                            {
+                                id: 7,
+                                text: 'Random text 7',
+                                show: true
+                            },
+                            {
+                                id: 8,
+                                text: 'Random text 8',
+                                show: true
+                            },
+                            {
+                                id: 9,
+                                text: 'Random text 9',
+                                show: true
+                            },
+                            {
+                                id: 10,
+                                text: 'Random text 10',
+                                show: true
+                            }
+                        ]
+                    }
+                },
+                components: {
+                    'delete-item': deleteItem
+                },
+                methods: {
+                    deleteItem(id) {
+                        this.items = this.items.filter((item) => {
+                            return item.id !== id
+                        })
+                    }
+                },
+                template: `
+                    <ul v-if="items.length" id="box">
+                        <delete-item v-for="item in items" :item="item" @deleteItem="deleteItem"></delete-item>
+                    </ul>`
+            }
+
+            const app = Vue.createApp({
+                components: {
+                    'big-box': bigBox,
+                    'delete-item': deleteItem
+                }
+            })
+            app.mount('#app')
+        </script>
+    </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TP2</title>
+        <script src="https://unpkg.com/vue@next"></script>
+        <style>
+            #box {
+                display: flex;
+                justify-content: space-between;
+                width: 300px;
+                border: 1px solid;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <big-box></big-box>
+        </div>
+        <script>
+            const listItem = {
+                data() {
+                    return {
+                        message: "I'm some random text"
+                    }
+                },
+                methods: {
+                    loadText: function() {
+                        this.$emit('messageIsLoaded', this.message)
+                    }
+                },
+                template: `
+                    <button v-on:click="loadText()">
+                        Click me
+                    </button>`
+            }
+
+            const bigBox = {
+                data() {
+                    return {
+                        message: ""
+                    }
+                },
+                components: {
+                    'list-item': listItem
+                },
+                methods: {
+                    loadText(message) {
+                        this.message = message;
+                    }
+                },
+                template: `
+                    <div id="box">
+                        <div>{{ message }}</div>
+                        <list-item v-on:messageIsLoaded="loadText($event)"></list-item>
+                    </div>`
+            }
+
+            const app = Vue.createApp({
+                components: {
+                    'big-box': bigBox,
+                    'list-item': listItem
+                }
+            })
+            app.mount('#app')
+        </script>
+    </body>
+</html>
